@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bluetooth</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #800020;
+  --secondary: #a52a2a;
+  --accent: #f5e6e8;
+  --card: #ffffff;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  background: linear-gradient(180deg, #f5e6e8, #fdeef2);
+  color: #333;
+  overflow-x: hidden;
+  position: relative;
+}
+
+header {
+  background: var(--primary);
+  color: white;
+  padding: 50px 20px;
+  text-align: center;
+}
+header h1 { font-size: 40px; margin:0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);}
+
+main {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.card {
+  background: var(--card);
+  padding: 30px;
+  margin-bottom: 30px;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: translateY(50px) rotate(-5deg) scale(0.9);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.card.visible { opacity:1; transform: translateY(0) rotate(0deg) scale(1);}
+h2,h3 { margin-top: 0; color: var(--primary);}
+ul { margin-left: 25px; }
+
+.quiz .question { margin-bottom: 15px; padding: 12px; border-radius: 12px; background: #fdeef2; font-size:16px; }
+.answers { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.answers button {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #a52a2a;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size:16px;
+}
+.answers button.selected { background: var(--secondary); color: white; border-color: var(--secondary); transform: scale(1.05);}
+.quiz-footer { margin-top:15px; display:flex; justify-content:space-between; }
+.btn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size:16px;
+}
+.btn:hover { transform: scale(1.05);}
+
+/* Avatar neutro */
+#avatar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: url('https://i.postimg.cc/7ZfZ9x7r/avatar-neutro.png') center/cover no-repeat;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: pointer;
+  animation: bounce 2s infinite;
+  z-index: 1000;
+}
+@keyframes bounce {0%, 100% {transform: translateY(0);}50% {transform: translateY(-10px);}}
+
+#guide-message {
+  position: fixed;
+  bottom: 120px;
+  right: 20px;
+  background: var(--accent);
+  padding: 12px 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  max-width: 280px;
+  font-size: 14px;
+  display: none;
+  animation: fadeIn 0.5s ease forwards;
+  z-index: 1000;
+}
+@keyframes fadeIn {0%{opacity:0;}100%{opacity:1;}}
+
+.wave {
+  position: absolute;
+  border: 2px solid var(--secondary);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0.7;
+  animation: waveAnim 2s infinite;
+}
+@keyframes waveAnim {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.7; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+.illustration {
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100%{ transform: translateY(0);}
+  50%{ transform: translateY(-15px);}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Bienvenidos al mundo del Bluetooth</h1>
+</header>
+
+<main>
+  <div class="card" id="card1">
+    <!-- Ilustración animada SVG Bluetooth -->
+    <svg class="illustration" viewBox="0 0 64 64">
+      <polygon fill="#800020" points="32,2 26,8 40,22 26,36 32,42 50,24 32,6" >
+        <animateTransform attributeName="transform" type="rotate" from="0 32 32" to="360 32 32" dur="5s" repeatCount="indefinite"/>
+      </polygon>
+    </svg>
+    <div>
+      <h2>¿Qué es Bluetooth?</h2>
+      <p>Bluetooth es una tecnología inalámbrica que permite la transmisión de datos entre dispositivos cercanos mediante ondas de radio de baja energía, eliminando la necesidad de cables.</p>
+    </div>
+  </div>
+
+  <div class="card" id="card2">
+    <svg class="illustration" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="10" fill="#a52a2a">
+        <animate attributeName="r" values="10;20;10" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+    <div>
+      <h3>Ventajas</h3>
+      <ul>
+        <li>Elimina cables</li>
+        <li>Bajo consumo de energía</li>
+        <li>Conexión automática</li>
+        <li>Compatibilidad con múltiples dispositivos</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" id="card3">
+    <svg class="illustration" viewBox="0 0 64 64">
+      <line x1="0" y1="32" x2="64" y2="32" stroke="#800020" stroke-width="4">
+        <animate attributeName="x2" values="64;32;64" dur="2s" repeatCount="indefinite"/>
+      </line>
+    </svg>
+    <div>
+      <h3>Desventajas</h3>
+      <ul>
+        <li>Alcance limitado</li>
+        <li>Velocidad inferior a Wi-Fi</li>
+        <li>Posible interferencia</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" id="card4">
+    <svg class="illustration" viewBox="0 0 64 64">
+      <rect x="20" y="20" width="24" height="24" fill="#a52a2a">
+        <animate attributeName="y" values="20;10;20" dur="3s" repeatCount="indefinite"/>
+      </rect>
+    </svg>
+    <div>
+      <h3>Características y actualizaciones</h3>
+      <ul>
+        <li>Bajo consumo de energía (BLE)</li>
+        <li>Conexión rápida y automática</li>
+        <li>Compatibilidad multiplataforma</li>
+        <li>Actualizaciones hasta Bluetooth 5.3 en 2025</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" id="quiz-card">
+    <h2>Cuestionario Interactivo</h2>
+    <div id="quiz-container"></div>
+    <div class="quiz-footer">
+      <button class="btn" id="prev-btn"◀️ Anterior</button>
+      <button class="btn" id="next-btn">Siguiente ▶️</button>
+      <button class="btn" id="submit-btn">Enviar y Calificar</button>
+    </div>
+    <div id="result" style="margin-top:15px; font-weight:bold;"></div>
+  </div>
+</main>
+
+<div id="avatar"></div>
+<div id="guide-message">¡Hola! Soy tu avatar. Haz click en mí para recibir instrucciones sobre Bluetooth.</div>
+
+<script>
+// Animación de tarjetas al scroll
+const cards = document.querySelectorAll('.card');
+window.addEventListener('scroll', ()=>{
+  cards.forEach(card=>{
+    const rect = card.getBoundingClientRect();
+    if(rect.top < window.innerHeight - 100) card.classList.add('visible');
+  });
+});
+
+// Avatar neutro interactivo
+const avatar = document.getElementById('avatar');
+const guide = document.getElementById('guide-message');
+avatar.addEventListener('click', ()=>{
+  guide.innerText = '¡Hola! Soy tu avatar. Explora las tarjetas y observa las ilustraciones animadas mientras aprendes sobre Bluetooth.';
+  guide.style.display='block';
+  setTimeout(()=>{guide.style.display='none';},5000);
+});
+window.addEventListener('load', ()=>{
+  guide.style.display='block';
+  setTimeout(()=>{guide.style.display='none';},4000);
+});
+
+// Ondas animadas en tarjetas
+cards.forEach(card=>{
+  for(let i=0;i<3;i++){
+    const wave = document.createElement('div');
+    wave.className='wave';
+    wave.style.animationDelay = `${i*0.5}s`;
+    card.appendChild(wave);
+  }
+});
+
+// Cuestionario dinámico
+const quizQuestions = [
+  {q:'¿Qué tipo de ondas utiliza Bluetooth?', a:['Microondas','Radio','Infrarrojo','Ultrasonido'], correct:1},
+  {q:'Año de creación de Bluetooth?', a:['1984','1994','2004','2014'], correct:1},
+  {q:'Alcance típico de Bluetooth estándar?', a:['1 m','10 m','50 m','100 m'], correct:1},
+  {q:'Ventaja principal de Bluetooth?', a:['Bajo consumo','Alta velocidad','Gran alcance','Requiere cables'], correct:0},
+  {q:'Desventaja de Bluetooth?', a:['Velocidad alta','Interferencia','Alto costo','No compatible con móviles'], correct:1},
+  {q:'Bluetooth permite la conexión con...', a:['Auriculares','Ratones','Smartwatches','Todos los anteriores'], correct:3},
+  {q:'Nombre del creador de Bluetooth?', a:['Nikola Tesla','Jaap Haartsen','Thomas Edison','Alexander Graham Bell'], correct:1},
+  {q:'Bluetooth es:', a:['Cableado','Inalámbrico','Satélite','Óptico'], correct:1},
+  {q:'Velocidad máxima aproximada de Bluetooth 5.0?', a:['1 Mbps','10 Mbps','50 Mbps','100 Mbps'], correct:2},
+  {q:'Qué simboliza el nombre Bluetooth?', a:['Un color','Un rey vikingo','Una señal de radio','Un protocolo de seguridad'], correct:1}
+];
+let currentIndex = 0;
+const answers = Array(quizQuestions.length).fill(null);
+const quizContainer = document.getElementById('quiz-container');
+
+function renderQuestion(i){
+  const item = quizQuestions[i];
+  quizContainer.innerHTML=`<div class='question'><strong>Pregunta ${i+1}:</strong> ${item.q}</div>
+    <div class='answers'>${item.a.map((opt,idx)=>`<button data-idx='${idx}'>${opt}</button>`).join('')}</div>`;
+  quizContainer.querySelectorAll('.answers button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      quizContainer.querySelectorAll('.answers button').forEach(x=>x.classList.remove('selected'));
+      b.classList.add('selected');
+      answers[i]=Number(b.dataset.idx);
+    });
+  });
+  if(answers[i]!==null){
+    const sel = quizContainer.querySelector(`[data-idx='${answers[i]}']`);
+    if(sel) sel.classList.add('selected');
+  }
+}
+document.getElementById('next-btn').addEventListener('click',()=>{if(currentIndex<quizQuestions.length-1){currentIndex++;renderQuestion(currentIndex);}});
+document.getElementById('prev-btn').addEventListener('click',()=>{if(currentIndex>0){currentIndex--;renderQuestion(currentIndex);}});
+document.getElementById('submit-btn').addEventListener('click',()=>{
+  let score=0;
+  quizQuestions.forEach((q,idx)=>{if(answers[idx]===q.correct) score++;});
+  document.getElementById('result').innerText=`Obtuviste ${score} / ${quizQuestions.length} puntos.`;
+});
+renderQuestion(0);
+</script>
+
+</body>
+</html>
